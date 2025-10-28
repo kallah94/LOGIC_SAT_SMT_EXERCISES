@@ -1,0 +1,624 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tcolorbox}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\geometry{margin=1in}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+\lhead{Formel Method Logic Excercises}
+
+% Custom colors
+\definecolor{darkblue}{rgb}{0.1, 0.2, 0.5}
+\definecolor{lightgray}{rgb}{0.95, 0.95, 0.97}
+
+% Theorem styles
+\theoremstyle{definition}
+\newtheorem*{defn}{Definition}
+\theoremstyle{plain}
+\newtheorem*{thm}{Theorem}
+\newtheorem*{lem}{Lemma}
+
+\title{\textcolor{darkblue}{\Large\textbf{Formel Method Logic Exercises}}}
+\author{Moussa FALL}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{\textcolor{darkblue}{1. Show that the formulas $B \vee C$ and $(B \vee A) \wedge (C \vee \neg A)$ are equisatisfiable}}
+\subsection*{\textcolor{darkblue}{Problem Statement}}
+Consider the following formulas:
+\begin{align*}
+\varphi &: B \vee C \\
+\psi &: (B \vee A) \wedge (C \vee \neg A)
+\end{align*}
+
+\begin{defn}
+$\varphi$ and $\psi$ are \textbf{equisatisfiable} if and only if:
+\[
+\left(\exists\; \mu \text{ such that } \mu \models \varphi\right) \Longleftrightarrow \left(\exists\; \mu' \text{ such that } \mu' \models \psi\right)
+\]
+\end{defn}
+
+\subsection*{\textcolor{darkblue}{Forward Direction: $\varphi$ satisfiable $\Rightarrow$ $\psi$ satisfiable}}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[colback=lightgray, colframe=darkblue, boxrule=1pt]
+\textit{Define} $\mu = \{ B \mapsto \top, C \mapsto \top \}$
+\end{tcolorbox}
+
+\vspace{0.3cm}
+\noindent
+First, we evaluate $\varphi$ under $\mu$:
+\[
+[\varphi]_\mu = [B \vee C]_\mu = [B]_\mu \vee [C]_\mu = \top \vee \top = \top \quad \Rightarrow \quad \mu \models \varphi
+\]
+
+\vspace{0.3cm}
+\noindent
+Next, we compute $[\psi]_\mu$:
+\begin{align*}
+[\psi]_\mu &= [(B \vee A) \wedge (C \vee \neg A)]_\mu \\
+&= ([B]_\mu \vee [A]_\mu) \wedge ([C]_\mu \vee \neg[A]_\mu) \\
+&= (\top \vee [A]_\mu) \wedge (\top \vee \neg[A]_\mu) \\
+&= \top \wedge \top = \top
+\end{align*}
+
+\vspace{0.3cm}
+\noindent
+Since $[\psi]_\mu = \top$, any extension $\mu'$ of $\mu$ is a model for $\psi$. For example:
+\[
+\mu' = \{B \mapsto \top, C \mapsto \top, A \mapsto \top\}
+\]
+
+\vspace{0.2cm}
+\noindent
+We verify:
+\[
+[\psi]_{\mu'} = (\top \vee \top) \wedge (\top \vee \perp) = \top \wedge \top = \top \quad \Rightarrow \quad \mu' \models \psi
+\]
+
+\subsection*{\textcolor{darkblue}{Backward Direction: $\psi$ satisfiable $\Rightarrow$ $\varphi$ satisfiable}}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[colback=lightgray, colframe=darkblue, boxrule=1pt]
+\textit{Define} $\mu'' = \{A \mapsto \perp, B \mapsto \top, C \mapsto \perp\}$
+\end{tcolorbox}
+
+\vspace{0.3cm}
+\noindent
+We evaluate $[\psi]_{\mu''}$:
+\begin{align*}
+[\psi]_{\mu''} &= [(B \vee A) \wedge (C \vee \neg A)]_{\mu''} \\
+&= (\top \vee \perp) \wedge (\perp \vee \top) \\
+&= \top \wedge \top = \top \quad \Rightarrow \quad \mu'' \models \psi
+\end{align*}
+
+\vspace{0.3cm}
+\noindent
+Now consider the submodel $\mu_1 = \{B \mapsto \top, C \mapsto \perp\} \subset \mu''$:
+\[
+[\varphi]_{\mu_1} = [B \vee C]_{\mu_1} = \top \vee \perp = \top \quad \Rightarrow \quad \mu_1 \models \varphi
+\]
+
+\vspace{0.3cm}
+\noindent
+Since $\mu_1 \subset \mu''$ and $\mu'' \models \psi$, we have shown that there exists a model of $\psi$ with a submodel satisfying $\varphi$.
+
+\subsection*{\textcolor{darkblue}{Conclusion}}
+
+\vspace{0.5cm}
+We have demonstrated both directions:
+\[
+\boxed{\begin{aligned}
+(\exists \mu \text{ such that } \mu \models \varphi) &\Longleftrightarrow (\exists \mu' \text{ such that } \mu' \models \psi)
+\end{aligned}}
+\]
+
+\vspace{0.3cm}
+\noindent
+\textbf{\textcolor{darkblue}{Therefore, $\varphi$ and $\psi$ are equisatisfiable.}}
+
+\newpage
+
+\section*{\textcolor{darkblue}{a. Are they also equivalent?}}
+
+\subsection*{\textcolor{darkblue}{Equivalence Definition}}
+
+\begin{defn}
+$\varphi$ and $\psi$ are \textbf{equivalent} if and only if for all models $\mu$:
+\[
+[\varphi]_\mu = [\psi]_\mu
+\]
+\end{defn}
+
+\subsection*{\textcolor{darkblue}{Counterexample}}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[colback=lightgray, colframe=darkblue, boxrule=1pt]
+\textit{Define} $\mu = \{A \mapsto \top, B \mapsto \top, C \mapsto \perp\}$
+\end{tcolorbox}
+
+\vspace{0.3cm}
+\noindent
+Evaluate $\varphi$ under $\mu$:
+\[
+[\varphi]_\mu = [B \vee C]_\mu = \top \vee \perp = \top \quad \Rightarrow \quad \mu \models \varphi
+\]
+
+\vspace{0.3cm}
+\noindent
+Evaluate $\psi$ under $\mu$:
+\begin{align*}
+[\psi]_\mu &= [(B \vee A) \wedge (C \vee \neg A)]_\mu \\
+&= (\top \vee \top) \wedge (\perp \vee \perp) \\
+&= \top \wedge \perp = \perp \quad \Rightarrow \quad \mu \not\models \psi
+\end{align*}
+
+\vspace{0.5cm}
+\noindent
+Since we found a model $\mu$ where $\mu \models \varphi$ but $\mu \not\models \psi$, we conclude:
+
+\vspace{0.3cm}
+\[
+\boxed{\textbf{\textcolor{darkblue}{$\varphi$ and $\psi$ are NOT equivalent}}}
+\]
+
+\vspace{0.5cm}
+\noindent
+\textit{Observation:} Two formulas can be equisatisfiable without being logically equivalent. They need only have models; they need not have the same models.
+
+\section*{\textcolor{darkblue}{2. Implementation of SAT using 3-SAT}}
+\subsection*{\textcolor{darkblue}{Problem Statement}}
+\vspace{0.5cm}
+\begin{tcolorbox}[colback=lightgray, colframe=darkblue, boxrule=1pt]
+Let SAT be a procedure to decide the satisfiability of \textcolor{darkblue}{an arbitrary propositional formula} $\varphi$. Let 3-SAT a procedure to decide the satisfiability of formula that are \textcolor{darkblue}{conjunctions of clauses of size at most 3}. Show how to implement SAT using 3-SAT.
+\end{tcolorbox}
+\vspace{0.3cm}
+\noindent
+
+\subsection*{\textcolor{darkblue}{Resolution}}
+Let $\varphi = C_1 \wedge C_2 \wedge... \wedge C_n$ the $\mathit{CNF}$ form for a given \textcolor{darkblue}{arbitrary propositional formula} and $C_i = l_{i1} \vee l_{i2} \vee ... \vee l_{ik}$\\
+
+Here is a way to implement SAT using 3-SAT.
+\vspace{0.5cm}
+\begin{tcolorbox}[colback=lightgray, colframe=darkblue, boxrule=1pt]
+\begin{enumerate}
+  \item Convert $\varphi$ in CNF if it's not already the case $\rightarrow$ CNF\_Converter($\varphi$)
+  \item Check each clause $C_i$ size $k$
+    \begin{itemize}
+      \item If $k \leq 3 \rightarrow$ $C^{'}_i = C_i$ 
+      \item Else we define $C^{'}_i$ as a conjunction of literals from $C_i$ using new fresh variables($z_k$) $\rightarrow C^{'}_i =  (l_1 \vee l_2 \vee z_1)\wedge(\neg z_1 \vee l_3 \vee z_2)\wedge...\wedge(\neg z_{k-3} \vee l_{k-1}\vee l_{k})$.\cite{srba2025lecture13}
+    \end{itemize}
+    \item Define the 3-CNF form of $\psi \rightarrow \psi = C^{'}_1 \wedge C^{'}_2\wedge...\wedge C^{'}_n$
+\item Call 3-SAT procedure $\rightarrow 3-SAT(\psi)$
+\end{enumerate}
+\end{tcolorbox}
+\vspace{0.3cm}
+\noindent
+\section*{\textcolor{darkblue}{3. Which formulas are true in S:}}
+\subsection*{\textcolor{darkblue}{Definition}}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[colback=lightgray, colframe=darkblue, boxrule=1pt]
+\textit{Define} $S \equiv (D,I)$ be the following structure:
+ $D \equiv \mathbb{N}$ \\
+ $[A]^I \equiv \{(n,m) \mid n \geq m\}$ \\
+ $[B]^I \equiv \{(n,m,p) \vert n + m = p\}$
+\end{tcolorbox}
+\vspace{0.3cm}
+\noindent
+\begin{enumerate}[label=\alph*.]
+  \item $\forall x.\forall y.\forall z.(B(x,y,z) \rightarrow B(y,x,z))$
+  \item $\forall x. \exists y.(B(x,x,y) \rightarrow B(y,x,y))$
+  \item $\exists x. \exists y.(A(x,y) \vee \neg B(y,x,y))$
+  \item $\exists z. \forall x. \exists y.(A(x,y) \rightarrow \forall x.B(x,x,z))$
+  \item $\exists x. \forall y.B(x,y,x)$
+  \item $\forall x. \forall y.A(x,y)$
+  \item $\exists x. \exists y.A(x,y)$
+  \item $\forall z. \forall x. \exists y.(\neg A(x,y) \rightarrow \exists y. \neg A(y,z))$
+\end{enumerate}
+\subsection*{\textcolor{darkblue}{Resolution}}
+\subsubsection*{\textcolor{darkblue}{a. $\forall x.\forall y.\forall z.(B(x,y,z) \rightarrow B(y,x,z))$ is True}}
+The formula mean "for all x, y, z $\in \mathbb{N}$ if $B(x,y,z)$ holds then $B(y,x,z)$ holds"\\
+\begin{align}
+B(x,y,z) &\text{ is true} & \Rightarrow & \quad x + y = z \\
+B(y,x,z) &\text{ is true} & \Rightarrow & \quad y + x = z
+\end{align}
+Since addition of natural numbers is commutative, we have $x + y = y + x$. There for, if $x+ y = z$, then $y + x = z$ as well. Base on this the formula is True in S.
+\subsubsection*{\textcolor{darkblue}{b. $\forall x. \exists y.(B(x,x,y) \rightarrow B(y,x,y))$ is True}}
+$\forall x. \exists y.(B(x,x,y) \rightarrow B(y,x,y)) \equiv \forall x.(B(x,x,f(x)) \rightarrow B(f(x), x, f(x)) \equiv \neg B(x,x,f(x))  \vee B(f(x), x, f(x))$
+\begin{align}
+  \neg B(x,x,f(x)): x + x \neq f(x)\\
+  B(f(x),x,f(x)): f(x) + x = f(x)
+\end{align}
+If we assign $f(x) \rightarrow 0\quad$ then we have:
+\begin{align}
+  \neg B(x,x,0): x + x \neq 0 \equiv x \neq 0\\
+  B(0,x,0): 0 + x = 0 \equiv x = 0
+\end{align}
+For all $x \in \mathbb{N}: x = 0 \; or \;x \neq 0 \; \textbf{there for the formula is true in S}$ 
+
+\subsubsection*{\textcolor{darkblue}{c. $\exists x. \exists y.(A(x,y) \vee \neg B(y,x,y))$ is True}}
+\begin{align}
+  A(x,y): x \geq y\\
+  \neg B(y,x,y): y + x \neq y
+\end{align}
+It suffices to take $x$ from $\mathbb{N^*}$ show that the formula is True
+\subsubsection*{\textcolor{darkblue}{d. $\exists z. \forall x. \exists y.(A(x,y) \rightarrow \forall x.B(x,x,z))$ is True}}
+$\exists z. \forall x. \exists y.(A(x,y) \rightarrow \forall x.B(x,x,z)) \equiv \exists z. \forall x.(\neg A(x,f(x)) \vee \forall x.B(x,x,z))$\\\\
+$\exists z. \forall x.(\neg A(x,f(x)) \vee \forall x.B(x,x,z) = \exists z. \forall x.(\neg A(x, f(x)) \vee \exists z. \forall x.B(x,x,z)$\\\\
+
+$\exists z. \forall x.(\neg A(x, f(x))$  means there is $z \in \mathbb{N}$ for all $x \in \mathbb{N}$ such that $\neg A(x, f(x))$\\\\
+$\neg A(x, f(x)) \rightarrow x < f(x)$ for all $x \in \mathbb{N}$ this subformula is true in S for all $x \in \mathbb{N}$ it suffices to assume $f(x) = x + 1$\\\\
+Since $\exists z. \forall x.(\neg A(x, f(x))) \equiv \exists z. \forall x. \exists y.(\neg A(x,y))$ is true in S there for the formula is true in S as well.\\\\
+We show that $\exists z. \forall x. \exists y.(\neg A(x,y)) = \top$ in S, there for we can rewrite the formula like this $ (\top \vee \exists z. \forall x.B(x,x,z)) = \top$. That why the formula is already true in S.\\
+
+\subsubsection*{\textcolor{darkblue}{e. $\exists x. \forall y.B(x,y,x)$ is False}}
+$\exists x. \forall y.B(x,y,x)$ means there is $x \in \mathbb{N}$ such that for all $y \in \mathbb{N},\; B(x,y,x)$ is holds.\\\\
+$B(x,y,x) \rightarrow x + y = x$ that's not true for all $y \in \mathbb{N^*}$ there for the formula is false in S.
+
+\subsubsection*{\textcolor{darkblue}{f. $\forall x. \forall y.A(x,y)$ is False}}
+$\forall x. \forall y.A(x,y)$ means for all $x, y \in \mathbb{N} A(x,y)$ is holds.\\\\
+$A(x,y) \rightarrow x \geq y$, that not true in S for all $x, y \in \mathbb{N}$. For example that is not true for all $y \in \mathbb{N}\; \vert\; y = x + 1$
+
+\subsubsection*{\textcolor{darkblue}{g. $\exists x. \exists y.A(x,y)$ is True}}
+$\exists x. \exists y.A(x,y)$ means there is $x , y \in \mathbb{N}$ such that $A(x, y)$ is holds.\\\\
+$A(x,y) \rightarrow x \geq y$ that is true in S. We can choose $x, y \in \mathbb{N}\;|\; x = y + 1$
+
+\subsubsection*{\textcolor{darkblue}{h. $\forall z. \forall x. \exists y.(\neg A(x,y) \rightarrow \exists y. \neg A(y,z))$ is True}}
+$\forall z. \forall x. \exists y.(\neg A(x,y) \rightarrow \exists y. \neg A(y,z)) \equiv \forall z. \forall x. \exists y.(\neg(\neg A(x,y)) \vee \exists y. \neg A(y,z))$\\\\
+$\forall z. \forall x. \exists y.(\neg A(x,y) \rightarrow \exists y. \neg A(y,z)) \equiv \forall x. \exists y.A(x,y) \vee \forall z \exists y. \neg A(y,z)$\\\\
+$\forall x. \exists y.A(x,y)$ means for all $x \in \mathbb{N}$ there is an $y \in \mathbb{N}$ such that $A(x,y)$ is holds in S.\\\\
+$A(x,y) \rightarrow x \geq y$ that's true, we can just assume $y = 0$.\\\\
+Since this part of the formula ($\forall x. \exists y.A(x,y)$)  is true in S, there for the formula is true in S as well.
+
+\section*{\textcolor{darkblue}{4. Say  which of the following are valid:}}
+\begin{enumerate}[label=\alph*.]
+\item $\forall x. \exists y.A(x,y) \rightarrow \exists x. \forall y.A(x,y)$
+\item $\exists x. \forall y.A(x,y) \rightarrow \forall x. \exists y.A(x,y)$
+\item $\exists x.\forall y.A(x,y) \rightarrow \exists x. \forall y.A(x,y)$
+\item $\forall x.\exists y.A(x,y) \rightarrow \forall x.\exists y.A(x,y)$
+\end{enumerate}
+\subsection*{\textcolor{darkblue}{Resolution}}
+
+\subsubsection*{\textcolor{darkblue}{a. $\forall x. \exists y.A(x,y) \rightarrow \exists x. \forall y.A(x,y)$ is Invalid}}
+$\forall x. \exists y.A(x,y) \rightarrow \exists x. \forall y.A(x,y) \equiv \neg(\forall x. \exists y.A(x,y)) \vee \exists x. \forall y.A(x,y)$\\\\
+$\neg(\forall x. \exists y.A(x,y)) \vee \exists x. \forall y.A(x,y) = \exists x. \forall y. \neg A(x,y) \vee \exists x. \forall y.A(x,y)$\\\\
+$\exists x. \forall y.\neg A(x,y)$ means there is an $x \in \mathbb{N}$ such that for all $y \in \mathbb{N}\;\text{then} \;x<y$, that is false, we can assume $y = 0$ for counterexample.\\\\
+$\exists x. \forall y.A(x,y)$ means there is an $x \in \mathbb{N}$ such that for all $y \in \mathbb{N}$ then $x \geq y$, that is false, we can always assume $y = x+ 1$ for counterexample.\\
+
+Since $\exists x. \forall y.\neg A(x,y) = \perp$ and $\exists x. \forall y.A(x,y) = \perp$ the formula is not valid.
+\subsubsection*{\textcolor{darkblue}{b. $\exists x. \forall y.A(x,y) \rightarrow \forall x. \exists y.A(x,y)$ is valid}}
+$\exists x. \forall y.A(x,y) \rightarrow \forall x. \exists y.A(x,y) \equiv \neg(\exists x. \forall y.A(x,y)) \vee \forall x. \exists y.A(x,y)$\\\\
+$\neg(\exists x. \forall y.A(x,y)) \vee \forall x. \exists y.A(x,y) = \forall x. \exists y.\neg A(x,y) \vee \forall x. \exists y.A(x,y)$\\\\
+$\forall x. \exists y. A(x,y) $ mean for all $x$ we can find an $y$ such that $A(x,y)$ is hold\\\\
+$A(x,y) \rightarrow (x \geq y)$ that always true, we can choose for example $x = y$\\\\
+$\forall x. \exists y.\neg A(x,y) \vee \forall x. \exists y.A(x,y) = \top$, since for all $x \in \mathbb{N}$ we can find a suitable $y$ eihter greater than or less than $x$\\\\
+This formula is always true, there for it's valid.
+\subsubsection*{\textcolor{darkblue}{c. $\exists x.\forall y.A(x,y) \rightarrow \exists x. \forall y.A(x,y)$ is valid}}
+A formula always implies itself and that is the case here.
+
+\subsubsection*{\textcolor{darkblue}{d. $\forall x.\exists y.A(x,y) \rightarrow \forall x.\exists y.A(x,y)$  is valid}}
+A formula always implies itself and that is the case here.
+\newpage
+\section*{\textcolor{darkblue}{A weighty problem}}
+\subsection*{\textcolor{darkblue}{Problem Statement}}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[colback=lightgray, colframe=darkblue, boxrule=1pt]
+I have ten boxes which I want to pack into crates. Each crate can carry a maximum of 25 kg. But I only have three crates, and the total weight of the boxes is 75 kg: 15kg, 13kg, 11kg, 10kg, 9kg, 8kg, 4kg, 2kg, 2kg, 1kg.
+How can I pack the boxes into crates?
+\end{tcolorbox}
+\vspace{0.3cm}
+\noindent
+
+\subsection*{\textcolor{darkblue}{Resolution}}
+\begin{itemize}
+  \item The maximum a crate can carry is $25kg$; this means the maximum three crates can carry is $25 \times 3 = 75kg$.
+  \item The total weight of boxes is $75kg$, which means each crate must carry exactly $25kg$.
+\end{itemize}
+With this information, the problem can now be redefined with the following statement:
+\vspace{0.5cm}
+\begin{tcolorbox}[colback=lightgray, colframe=darkblue, boxrule=1pt]
+How can I find three distinct combinations of boxes that weigh $25kg$
+\end{tcolorbox}
+\vspace{0.3cm}
+\noindent
+\subsubsection*{\textcolor{darkblue}{Definition}}
+\begin{equation}
+\mathcal{U} = \{(i, w) \mid i \in \{0, \ldots, 9\}, w = W(i)\}
+\end{equation}\\
+where $W: \{0, \ldots, 9\} \rightarrow \mathbb{N}$ is defined by:
+\begin{align}
+W(0) &= 15, \quad W(1) = 13, \quad W(2) = 11, \quad W(3) = 10, \quad W(4) = 9, \\
+W(5) &= 8, \quad W(6) = 4, \quad W(7) = 2, \quad W(8) = 2, \quad W(9) = 1
+\end{align}\\
+Let $\mathcal{C} = \{C_1, C_2, C_3\}$ where each $C_k \subset \mathcal{U}$.\\
+Find a partition $\mathcal{C}$ of $\mathcal{U}$ such that:
+
+\begin{enumerate}
+    \item \textbf{Completeness:}
+    \begin{equation}
+    \bigcup_{k=1}^{3} C_k = \mathcal{U}
+    \end{equation}
+    
+    \item \textbf{Disjointness:}
+    \begin{equation}
+    C_i \cap C_j = \emptyset \quad \text{for all } i \neq j
+    \end{equation}
+    
+    \item \textbf{Weight constraint:}
+    \begin{equation}
+    W(C_k) = \sum_{(i,w) \in C_k}w = 25 \quad \text{for all } k \in \{1, 2, 3\}
+    \end{equation}
+\end{enumerate}
+\subsection*{\textcolor{darkblue}{Formula}}
+\begin{equation}
+\varphi = \left(\bigwedge^3_{k=1}(W(C_k) = 25)\right)
+         \wedge \left(\bigcup_{k=1}^3 C_k = \mathcal{U}\right)
+         \wedge \left(\bigwedge_{1 \leq i < j \leq 3}(C_i \cap C_j = \emptyset)\right)
+\end{equation}
+\\
+
+\subsection*{\textcolor{darkblue}{Solution}}
+$Crate_1: \; \{(0, 15), (5,8), (8,2)\}$\\\\
+$Crate_2: \; \{(1,13), (2,11), (9,1) \}$\\\\
+$Crate_3: \; \{(3,10), (4,9), (6,4), (7,2) \}$
+\[
+\boxed{\begin{aligned}
+\mu = \{C_1 \mapsto \{B_0, B_5, B_8\}, C_2 \mapsto \{B_1, B_2, B_9\}, C_3 \mapsto \{B_3, B_4, B_6, B_7 \}\}
+\end{aligned}}
+\]
+\section*{\textcolor{darkblue}{Algebra Logic}}
+\subsection*{\textcolor{darkblue}{Problem Statement}}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[colback=lightgray, colframe=darkblue, boxrule=1pt]
+Solve the following (put digits for the letters):
+\begin{equation}
+  (L + O + G + I + C)^3 = LOGIC
+\end{equation}
+\end{tcolorbox}
+\subsection*{\textcolor{darkblue}{Resolution}}
+$LOGIC \equiv L\times 10000 + O \times 1000 + G \times 100 + I\times 10 + C$
+\subsubsection*{\textcolor{darkblue}{Definition}}
+Let define relevents sets and properties:
+\begin{align}
+  \Omega = \left\{L, O, G, I, C \right\} \subset  \mathbb{N}\\
+  \forall l \in \Omega, \; 0 \leq l \leq 9
+\end{align}
+\vspace{0.3cm}
+\noindent
+The problem can be expressed with this formula:
+\subsection*{\textcolor{darkblue}{Formula}}
+
+\begin{align}
+  \varphi =\forall l\left((l \leq 9)\wedge (l \geq 0) \right) \wedge \left((L + O + G + I + C)^3 = L\times 10000 + O \times 1000 + G \times 100 + I\times 10 + C\right)
+\end{align}
+
+\subsection*{\textcolor{darkblue}{Solution}}
+$(L + O + G + I + C)^3 = LOGIC \equiv (1+9+6+8+3)^3 = 19683$
+\[
+\boxed{\begin{aligned}
+\mu = \{L \mapsto 1, O \mapsto 9, G \mapsto 6, I \mapsto 8, C \mapsto 3\}
+\end{aligned}}
+\]
+
+\section*{\textcolor{darkblue}{10-digit Number}}
+\subsection*{\textcolor{darkblue}{Problem Statement}}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[colback=lightgray, colframe=darkblue, boxrule=1pt]
+Find a 10-digit number where the first digit is how many zeros in the number, the second digit is how many 1s in the number etc. until the tenth digit is how many 9s is in the number.
+\end{tcolorbox}
+
+\subsection*{\textcolor{darkblue}{Resolution}}
+The problem is to find a 10-digit number ($X = X_0X_1..X_i..X_9$) such that:
+\begin{itemize}
+  \item $X_0 \rightarrow$ number of $0$ in $X_0X_1..X_i..X_9$
+  \item $X_1 \rightarrow$ number of $1$ in  $X_0X_1..X_i..X_9$
+  \item ... ... ...
+  \item$X_i \rightarrow$ number of $i$ in $X_0X_1..X_i..X_9$
+\end{itemize}
+Base on this we can make the following definition:
+\subsubsection*{\textcolor{darkblue}{Definition}}
+$  \Omega = \left\{X_0, X_1, X_2, X_3, X_4, X_5, X_6, X_7, X_8, |\; 0\leq X \leq 9 \right\} \subset  \mathbb{N}$\\\\
+\[
+  I:
+  \begin{array}{rcl}
+    \Omega & \longrightarrow & \mathbb{N} \\
+    X_i & \longmapsto & i
+  \end{array}
+  \quad \text{with } i \; \text{the index of the digit } X_i \text{ in } X
+\]
+\[
+  C_X:
+  \begin{array}{rcl}
+    \mathbb{N}\times \mathbb{N} & \longrightarrow & \mathbb{N}\\
+    (X, i) & \longmapsto & \mathrm{Count_X}(i)
+  \end{array}
+  \quad \text{with } \mathrm{Count}_X(i) = \text{number of occurrences of } i \text{ in } X.
+\]
+\\
+$X_i \rightarrow$ number of $i$ in $X \equiv C_X(X,I(X_i)) = X_i$\\\\
+Considering the definition below, we can now rewrite the problem with the following formula:
+\subsection*{\textcolor{darkblue}{Formula}}
+\begin{equation}
+\varphi = \left(\bigwedge^9_{i=0}((X_i \geq 0)\wedge(X_i \leq 9))\right)
+         \wedge \left(\bigwedge_{i=0}^9 C_X(X, I(X_i)) = X_i\right)
+\end{equation}
+
+\subsection*{\textcolor{darkblue}{Solution}}
+$X = 6210001000$
+\[
+\boxed{\begin{aligned}
+\mu = \{X_0 \mapsto 6, X_1 \mapsto 2, X_2 \mapsto 1, X_3 \mapsto 0, X_4 \mapsto 0, X_5 \mapsto 0, X_6 \mapsto 1, X_7 \mapsto 0, X_8 \mapsto 0, X_9 \mapsto 0 \}
+\end{aligned}}
+\]
+
+\section*{\textcolor{darkblue}{$\alpha + \beta + \gamma = \delta$}}
+\subsection*{\textcolor{darkblue}{Problem Statement}}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[colback=lightgray, colframe=darkblue, boxrule=1pt]
+Solve this:
+\begin{itemize}
+  \item ALFA + BETA + GAMMA = DELTA
+\end{itemize}
+Replace letters with digits and have the sum be true. (There is more than one solution.)
+\end{tcolorbox}
+\subsection*{\textcolor{darkblue}{Resolution}}
+The problem is to find digits satisfied this: \\
+\begin{align}
+  (A\times 1000 + L\times 100 + F\times 10 + A)\\
+  +
+  (B\times 1000 + E\times 100 + T\times 10 + A)\\
+  +
+  (G\times 10000 + A\times 1000 + M\times 100 + M\times 10 + A) \\= D\times 10000 + E\times 1000 + L\times 100 + T\times 10 + A
+\end{align}
+\subsubsection*{\textcolor{darkblue}{Definition}}
+Let us define the domaine $\Omega$ first: 
+$\Omega = \{ A, B, D, E, F, G, L, M  |\; 0 \leq L \leq 9\} \subset \mathbb{N}$\\\\
+$\alpha = A\times 1000 + L\times 100 + F\times 10 + A)$\\\\
+$\beta = B\times 1000 + E\times 100 + T\times 10 + A)$\\\\
+$\gamma =  (G\times 10000 + A\times 1000 + M\times 100 + M\times 10 + A)$\\\\
+$\delta = D\times 10000 + E\times 1000 + L\times 100 + T\times 10 + A$\\\\
+The problem can be expressed with the following formula:
+\subsection*{\textcolor{darkblue}{Formula}}
+\begin{equation}
+  \varphi = \left(\bigwedge^7_{i=0}((0 \leq L_i)\wedge(L_i \leq 9))\right)\wedge \left( \alpha + \beta + \gamma = \delta \right)
+\end{equation}
+
+\subsection*{\textcolor{darkblue}{Solution}}
+$ALFA + BETA + GAMMA = DELTA \equiv 5125 + 1215 + 85775 = 92115$
+\[
+\boxed{\begin{aligned}
+\mu = \{A \mapsto 5, B \mapsto 1, D \mapsto 9, E \mapsto 2, F \mapsto 2, G \mapsto 8, L \mapsto 1, M \mapsto 7, T \mapsto 1 \}
+\end{aligned}}
+\]
+
+\section*{\textcolor{darkblue}{9-digit number}}
+\subsection*{\textcolor{darkblue}{Problem Statement}}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[colback=lightgray, colframe=darkblue, boxrule=1pt]
+There is a 9 digit number. No digit are repeated and rightmost digit is divisible by 1 and right 2 digits is divisble by 2, right 3 digits is divisible by 3 and so on, finally the whole number is divisible by 9.
+\end{tcolorbox}
+\subsection*{\textcolor{darkblue}{Resolution}}
+\begin{itemize}
+  \item$X = X_0X_1X_2X_3X_4X_5X_6X_7X_8$
+  \item $ \exists k_8 \;| X_8 = 1 \times k_8. \text{ obviously } k_8 = X_8$
+  \item $\exists k_7 \;| X_7X_8 = 2 \times k_7 $
+  \item $\exists k_6 \;| X_6X_7X_8 = 3 \times k_6$
+  \item $\exists k_5 \;| X_5X_6X_7X_8 = 4 \times k_5$
+  \item $\exists k_4 \;| X_4X_5X_6X_7X_8 = 5 \times k_4$
+  \item $\exists k_3 \;| X_3X_4X_5X_6X_7X_8 = 6 \times k_3$
+  \item $\exists k_2 \; | X_2X_3X_4X_5X_6X_7X_8 = 7 \times k_2$
+  \item $\exists k_1 \; | X_1X_2X_3X_4X_5X_6X_7X_8 = 8 \times k_1$
+  \item $\exists k_0 \;| (X = X_0X_1X_2X_3X_4X_5X_6X_7X_8) = 9 \times k_0$
+\end{itemize}
+\subsection*{\textcolor{darkblue}{Definition}}
+\begin{equation}
+  \Omega = \{X_0, X_1, X_2, X_3, X_4, X_5, X_6, X_7, X_7, X_8\}
+\end{equation}
+
+\begin{equation}
+    \forall i, \forall j, i \neq j \rightarrow X_i \neq X_j
+\end{equation}
+\begin{equation}
+  \forall i, 0\leq X_i \leq 9
+\end{equation}\\
+\[
+  \sigma_X:
+  \begin{array}{rcl}
+    \Omega\times \mathbb{N} & \longrightarrow & \mathbb{N}\\
+    (X, i) & \longmapsto & X_{i}..X_8
+  \end{array}
+  \quad \text{with } \sigma_X(X,8) = X_8 \text{ and } \sigma_X(X,0) = X.
+\]
+\\
+The problem can be expressed with the following formula:
+\subsection*{\textcolor{darkblue}{Formula}}
+\begin{equation}
+  \varphi = \left(\bigwedge^8_{i=0}((0 \leq X_i)\wedge(X_i \leq 9))\right) \wedge \left(\bigwedge_{0 \leq i < j \leq 8}(X_i \neq X_j)\right) \wedge \left(\bigwedge_{0 \leq i \leq 8}(\sigma_X(X,i) = (9-i) \times k_i)\right)
+\end{equation}
+
+\subsection*{\textcolor{darkblue}{Solution}}
+$X = 165378240$
+\[
+\boxed{\begin{aligned}
+\mu = \{X_0 \mapsto 1, X_1 \mapsto 6, X_2 \mapsto 5, X_3 \mapsto 3, X_4 \mapsto 7, X_5 \mapsto 8. X_6 \mapsto 2, X_7 \mapsto 4, X_8 \mapsto 0 \}
+\end{aligned}}
+\]
+
+\section*{\textcolor{darkblue}{Fraction}}
+\subsection*{\textcolor{darkblue}{Problem Statement}}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[colback=lightgray, colframe=darkblue, boxrule=1pt]
+Can you arrange the numerals $1$ to $9 (1,2,3,4,5,6,7,8 \text{ and }9)$ in a single fraction that equals exactly (one third)?
+\begin{itemize}
+  \item An example that doesn't work: $7192/38456 = 0.187$
+\end{itemize}
+\end{tcolorbox}
+\subsection*{\textcolor{darkblue}{Resolution}}
+The problen is to find $X, Y \in \mathbb{N^*} \text{ such that } \dfrac{X}{Y} = \dfrac{1}{3}$.\\ $\dfrac{X}{Y} = \dfrac{1}{3} \rightarrow \dfrac{\frac{X}{Y}}{\frac{1}{3}} = 1 \rightarrow \dfrac{3X}{Y} = 1 \text{ and then } 3X = Y$\\\\
+The primary problem can be reduce to the search of $X, Y \text{ such that } 3X = Y$
+
+\subsection*{\textcolor{darkblue}{Definition}}
+\begin{equation}
+  X = X_{n-1}...X_0,\;|\; 1 \leq X_i \leq 9
+\end{equation}
+\begin{equation}
+  \mathbb{X} = \{X_0, X_1, .. X_i, .., X_{n-1}\} ;\; \dim(\mathbb{X}) = n
+\end{equation}
+\begin{equation}
+  Y = Y_{n-1}...Y_0,\;|\; 1 \leq Y_i \leq 9
+\end{equation}
+\begin{equation}
+  \mathbb{Y} = \{Y_0, Y_1, .. Y_i, .., Y_{m-1}\};\; \dim(\mathbb{Y}) = m
+\end{equation}
+\begin{equation}
+  \Omega = \{ 1, 2,3,4,5,6,7,8,9\};\; \dim(\Omega) = 9
+\end{equation}
+\begin{equation}
+  \mathbb{X} \cup \mathbb{Y} = \Omega,\; \mathbb{X} \cap \mathbb{Y} = \emptyset \text{ and then } m = 9 - n
+\end{equation}
+\subsection*{\textcolor{darkblue}{Formula}}
+\begin{equation}
+  \varphi = \exists n. \left(3X = Y\right)
+         \wedge \left(\mathbb{X} \cup \mathbb{Y} = \Omega\right)
+         \wedge \left(\mathbb{X} \cap \mathbb{Y} = \emptyset\right)
+\end{equation}
+
+\subsection*{\textcolor{darkblue}{Solution}}
+$n = 4\,, m = 5 \rightarrow n + m = 4+5=9$\\\\
+$X = 5823\,, Y = 17469\;, 3 \times 5823 = 17469 \rightarrow 3X = Y \Rightarrow \dfrac{X}{Y} = \dfrac{X}{3X} \equiv \dfrac{1}{3}$
+\[
+\boxed{\begin{aligned}
+\mu = \{X \mapsto \{X_0 \mapsto 3, X_1 \mapsto 2, X_2 \mapsto 8, X_3 \mapsto 5\}, Y \mapsto \{ Y_0 \mapsto 9, Y_1 \mapsto 6 Y_2 \mapsto 4, Y_3 \mapsto 7, Y_4 \mapsto 1 \}\}
+\end{aligned}}
+\]
+
+\newpage
+\begin{thebibliography}{9}
+
+\bibitem{srba2025lecture13}
+Jiri Srba,
+\textit{Lecture 13: More NP-complete Problems},
+Lecture slides for “Computability and Complexity” course, Aalborg University,
+\href{https://homes.cs.aau.dk/~srba/courses/slides-CC-10/l13-2x3.pdf}{PDF link}, 2025.
+\end{thebibliography}
+
+
+\end{document}
